@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
-import {DatabaseConnectionError} from '../errors/database-connection-error';
-import {RequestValidationError} from '../errors/request-validation-error';
+import { DatabaseConnectionError } from "../errors/database-connection-error";
+import { RequestValidationError } from "../errors/request-validation-error";
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ router.post(
       .isLength({ min: 4, max: 20 })
       .withMessage("Passsword must be between 4 and 20 character length."),
   ],
-  (req: Request, res: Response) => {
+  async (req: Request, res: Response) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {

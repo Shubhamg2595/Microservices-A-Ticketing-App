@@ -1,5 +1,6 @@
 import express from "express";
 import "express-async-errors";
+import mongoose from "mongoose";
 import { json } from "body-parser";
 import { currentUserRouter } from "./routes/current-user";
 import { signInRouter } from "./routes/siginin";
@@ -22,6 +23,19 @@ app.all("*", async (req, res) => {
 });
 
 app.use(errorHandler);
+
+const startDB = async () => {
+  // need to connect to our pod in k8s via clusterIp
+  try {
+    await mongoose.connect("mongoDB://auth-mongo-srv:27017/auth", {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 app.listen(3000, () => {
   console.log("Listening on port 3000...");
