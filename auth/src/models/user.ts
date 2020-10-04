@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Password from "../services/password";
 
 interface IUserAttrs {
   email: String;
@@ -28,12 +29,22 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+//middleware fn provided by mongoose which is executed before a document is saved in collection
+
+userSchema.pre("save", async function (done) {
+  if (this.isModified("password")) {
+    // email change func
+    const hashed = await Password.toHash(this.get("password"));
+    this.set("password", hashed);
+  }
+  done();
+});
+
 // adding custom functions to mongoose schema objects
 userSchema.statics.build = (attrs: IUserAttrs) => {
   return new User(attrs);
 };
 
-const User = mongoose.model<IUserDoc , IUserModel>("User", userSchema);
-
+const User = mongoose.model<IUserDoc, IUserModel>("User", userSchema);
 
 export { User };
