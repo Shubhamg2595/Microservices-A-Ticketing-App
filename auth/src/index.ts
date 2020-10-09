@@ -1,6 +1,7 @@
 import express from "express";
 import "express-async-errors";
 import mongoose from "mongoose";
+import cookieSession from "cookie-session";
 import { json } from "body-parser";
 import { currentUserRouter } from "./routes/current-user";
 import { signInRouter } from "./routes/siginin";
@@ -12,6 +13,14 @@ import { NotFoundError } from "./errors/not-found-error";
 const app = express();
 
 app.use(json());
+
+app.set("trust proxy", true); // since traffic is coming from proxy i.e ingress engine, we need to tell express to allow http-connections from proxies.
+app.use(
+  cookieSession({
+    signed: false,
+    secure: true, //making sure only http requests are entertained
+  })
+);
 
 app.use(currentUserRouter);
 app.use(signInRouter);
@@ -32,7 +41,7 @@ const startDB = async () => {
       useUnifiedTopology: true,
       useCreateIndex: true,
     });
-    console.log('DB connected')
+    console.log("DB connected");
   } catch (err) {
     console.error(err);
   }
