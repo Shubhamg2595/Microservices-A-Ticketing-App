@@ -47,7 +47,7 @@ router.post(
         id: user.id,
         email: user.email,
       },
-      "jwtSecretKey"
+      process.env.JWT_KEY!
     );
 
     // storing jwt token on session cookie

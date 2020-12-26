@@ -34,6 +34,12 @@ app.all("*", async (req, res) => {
 app.use(errorHandler);
 
 const startDB = async () => {
+
+
+  if(!process.env.JWT_KEY) {
+    throw new Error('JWT_KEY must be defined')
+  }
+
   // need to connect to our pod in k8s via clusterIp
   try {
     await mongoose.connect("mongodb://auth-mongo-srv:27017/auth", {
