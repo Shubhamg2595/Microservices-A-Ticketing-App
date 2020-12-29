@@ -8,6 +8,6 @@ export class BadRequestError extends CustomError {
   }
 
   serializeErrors() {
-    return [{ message: "" }];
+    return [{ message: this.message }];
   }
 }
