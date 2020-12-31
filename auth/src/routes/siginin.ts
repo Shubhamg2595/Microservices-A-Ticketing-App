@@ -25,7 +25,7 @@ router.post(
     if (!existingUser) {
       throw new BadRequestError("Invalid Credentials.");
     }
-
+0
     const passwordMatch = await Password.compare(
       existingUser.password,
       password
@@ -50,7 +50,7 @@ router.post(
       jwt: userJwt,
     };
 
-    res.status(200).send(existingUser);
+    res.status(200).send({existingUser, session: req.session});
   }
 );
 
