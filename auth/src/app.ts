@@ -17,7 +17,7 @@ app.set("trust proxy", true); // since traffic is coming from proxy i.e ingress 
 app.use(
   cookieSession({
     signed: false,
-    secure: true, //making sure only http requests are entertained
+    secure: process.env.NODE_ENV !== "test", //making sure only http requests are entertained when environment is not set to test mode
   })
 );
 
