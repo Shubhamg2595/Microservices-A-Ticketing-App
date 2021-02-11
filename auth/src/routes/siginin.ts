@@ -3,8 +3,7 @@ import { body } from "express-validator";
 
 import Password from "../services/password";
 import jwt from "jsonwebtoken";
-import { validateRequest } from "../middlewares/validate-request";
-import { BadRequestError } from "../errors/bad-request-error";
+import { validateRequest, BadRequestError } from "@msgtickets/common";
 import { User } from "../models/user";
 const router = express.Router();
 
@@ -25,7 +24,7 @@ router.post(
     if (!existingUser) {
       throw new BadRequestError("Invalid Credentials.");
     }
-0
+    0;
     const passwordMatch = await Password.compare(
       existingUser.password,
       password
@@ -50,7 +49,7 @@ router.post(
       jwt: userJwt,
     };
 
-    res.status(200).send({existingUser, session: req.session});
+    res.status(200).send({ existingUser, session: req.session });
   }
 );
 

@@ -2,12 +2,8 @@ import express from "express";
 import "express-async-errors";
 import cookieSession from "cookie-session";
 import { json } from "body-parser";
-import { currentUserRouter } from "./routes/current-user";
-import { signInRouter } from "./routes/siginin";
-import { signOutRouter } from "./routes/signout";
-import { signUpRouter } from "./routes/signup";
-import { errorHandler, NotFoundError } from "@msgtickets/common";
-
+import { errorHandler, NotFoundError, currentUser } from "@msgtickets/common";
+import { createTicketRouter } from "./routes/new";
 const app = express();
 
 app.use(json());
@@ -20,10 +16,9 @@ app.use(
   })
 );
 
-app.use(currentUserRouter);
-app.use(signInRouter);
-app.use(signUpRouter);
-app.use(signOutRouter);
+app.use(currentUser);
+
+app.use(createTicketRouter);
 
 app.all("*", async (req, res) => {
   throw new NotFoundError();

@@ -1,9 +1,9 @@
 import express from "express";
-import { currentUser } from "../middlewares/current-user";
-import { requireAuth } from "../middlewares/require-auth";
+import { currentUser } from "@msgtickets/common";
+// import { requireAuth } from "@msgtickets/common";
 const router = express.Router();
 
-router.get("/api/users/currentuser", currentUser, requireAuth, (req, res) => {
+router.get("/api/users/currentuser", currentUser, /*requireAuth,*/ (req, res) => {
   res.send({ currentUser: req.currentUser || null });
 });
 
