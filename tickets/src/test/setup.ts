@@ -1,6 +1,5 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
-import { app } from "../app";
 import jwt from "jsonwebtoken";
 declare global {
   namespace NodeJS {
@@ -47,7 +46,7 @@ global.getAuthCookie = () => {
   //  building a jwt payload containing id and email
 
   const payload = {
-    id: "i1sb13azq35",
+    id: mongoose.Types.ObjectId().toHexString(),
     email: "est@est.com",
   };
 
