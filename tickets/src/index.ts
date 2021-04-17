@@ -1,15 +1,17 @@
 import mongoose from "mongoose";
 import { app } from "./app";
-
+import { natsWrapper } from "./nats-wrapper";
 const startDB = async () => {
   // need to connect to our pod in k8s via clusterIp
+  if (!process.env.JWT_KEY) {
+    throw new Error("JWT_KEY must be defined");
+  }
+  if (!process.env.MONGO_URI) {
+    throw new Error("MONGO_URI must be defined");
+  }
+
   try {
-    if (!process.env.JWT_KEY) {
-      throw new Error("JWT_KEY must be defined");
-    }
-    if (!process.env.MONGO_URI) {
-      throw new Error("MONGO_URI must be defined");
-    }
+    await natsWrapper.connect("ticketing", "asdnjasnd", "http://nats-srv:4222");
 
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
