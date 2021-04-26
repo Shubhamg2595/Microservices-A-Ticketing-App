@@ -8,6 +8,8 @@ import {
   requireAuth,
   NotAuthorizedError,
 } from "@msgtickets/common";
+ import { natsWrapper } from "../nats-wrapper";
+import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated-publisher";
 
 const router = express.Router();
 
@@ -36,6 +38,14 @@ router.put(
         title: req.body.title,
         price: req.body.price
     })
+
+    
+    await new TicketUpdatedPublisher(natsWrapper.client).publish({
+      id: ticket.id,
+      title: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId,
+    });
 
     await ticket.save();
 

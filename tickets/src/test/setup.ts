@@ -9,6 +9,8 @@ declare global {
   }
 }
 
+jest.mock("../nats-wrapper");
+
 let mongo: any;
 beforeAll(async () => {
   // basic way of adding env-variable for test setup
@@ -25,6 +27,8 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+  // adding this to clear jest history before each execution
+  jest.clearAllMocks();
   // resetting all mongoDB instances
   const collections = await mongoose.connection.db.collections();
 
