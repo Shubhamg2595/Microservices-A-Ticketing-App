@@ -30,7 +30,7 @@ router.post(
 
     // find the ticket user is trying to find in the DB
 
-    const ticket = await Ticket.findById({ ticketId });
+    const ticket = await Ticket.findById(ticketId);
     if (!ticket) {
       throw new NotFoundError();
     }
