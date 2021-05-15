@@ -8,7 +8,7 @@ import {
   requireAuth,
   NotAuthorizedError,
 } from "@msgtickets/common";
- import { natsWrapper } from "../nats-wrapper";
+import { natsWrapper } from "../nats-wrapper";
 import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated-publisher";
 
 const router = express.Router();
@@ -30,25 +30,24 @@ router.put(
       throw new NotFoundError();
     }
 
-    if(ticket.userId !== req.currentUser!.id) {
-        throw new NotAuthorizedError();
+    if (ticket.userId !== req.currentUser!.id) {
+      throw new NotAuthorizedError();
     }
 
     ticket.set({
-        title: req.body.title,
-        price: req.body.price
-    })
+      title: req.body.title,
+      price: req.body.price,
+    });
 
-    
     await new TicketUpdatedPublisher(natsWrapper.client).publish({
       id: ticket.id,
+      version: ticket.version,
       title: ticket.title,
       price: ticket.price,
       userId: ticket.userId,
     });
 
     await ticket.save();
-
 
     res.send(ticket);
   }
