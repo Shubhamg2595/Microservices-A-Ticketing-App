@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: tickets-depl
-spec: 
+spec:
   replicas: 1
   selector:
     matchLabels:
@@ -18,14 +18,14 @@ spec:
           env:
             - name: NATS_CLIENT_ID
               valueFrom:
-                  fieldRef:
-                      fieldPath: metadata.name
+                fieldRef:
+                  fieldPath: metadata.name
             - name: NATS_URL
-              value: http://nats-srv:4222
+              value: 'http://nats-srv:4222'
             - name: NATS_CLUSTER_ID
               value: ticketing
             - name: MONGO_URI
-              value: 'mongodb://tickets-mongo-srv:27017/tickets'
+              value: "mongodb://tickets-mongo-srv:27017/tickets"
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef:

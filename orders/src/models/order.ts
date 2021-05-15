@@ -5,7 +5,7 @@ import { TicketDoc } from "./ticket";
 export { OrderStatus };
 
 interface OrderAttrs {
-  userId: string; //string here is TS provided type
+  userId: string;
   status: OrderStatus;
   expiresAt: Date;
   ticket: TicketDoc;
@@ -18,7 +18,6 @@ interface OrderDoc extends mongoose.Document {
   ticket: TicketDoc;
 }
 
-// reason we create above 2 separate interfaces is because property we may require to create a order might be different from the props that we actually store in order record
 interface OrderModel extends mongoose.Model<OrderDoc> {
   build(attrs: OrderAttrs): OrderDoc;
 }
@@ -26,7 +25,7 @@ interface OrderModel extends mongoose.Model<OrderDoc> {
 const orderSchema = new mongoose.Schema(
   {
     userId: {
-      type: String, //refers to actual value that will be consumed by mongoose.
+      type: String,
       required: true,
     },
     status: {
