@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { OrderStatus } from "@msgtickets/common";
 import { TicketDoc } from "./ticket";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 export { OrderStatus };
 
@@ -13,6 +14,7 @@ interface OrderAttrs {
 
 interface OrderDoc extends mongoose.Document {
   userId: string;
+  version: number;
   status: OrderStatus;
   expiresAt: Date;
   ticket: TicketDoc;
@@ -52,6 +54,11 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
+// telling mongoose to rename version field from '__v' with version
+orderSchema.set("versionKey", "version");
+
+// adding a plugin to mongoose
+orderSchema.plugin(updateIfCurrentPlugin);
 orderSchema.statics.build = (attrs: OrderAttrs) => {
   return new Order(attrs);
 };

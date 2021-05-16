@@ -60,3 +60,14 @@ it("acknowledges the message", async () => {
 
   expect(msg.ack).toHaveBeenCalled();
 });
+
+it("not acknowledges the messages when out of order event is received", async () => {
+  const { data, listener, msg } = await setup();
+
+  data.version = 20;
+
+    await expect(listener.onMessage(data, msg)).rejects.toThrow();
+
+
+  expect(msg.ack).not.toHaveBeenCalled();
+});
