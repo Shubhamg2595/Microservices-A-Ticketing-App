@@ -11,6 +11,7 @@ interface ITicketDoc extends mongoose.Document {
   price: number;
   userId: string;
   version: number; //updating monggoosre document to support version
+  orderId?: string;
 }
 
 interface ITicketModel extends mongoose.Model<ITicketDoc> {
@@ -31,6 +32,10 @@ const ticketSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    orderId: {
+      type: String,
+    },
+
   },
   {
     toJSON: {
