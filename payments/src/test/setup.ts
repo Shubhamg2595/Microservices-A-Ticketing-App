@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 declare global {
   namespace NodeJS {
     interface Global {
-      getAuthCookie(): string[];
+      getAuthCookie(id?: string): string[];
     }
   }
 }
@@ -46,11 +46,11 @@ afterAll(async () => {
 
 // only accessiblt to testing code
 
-global.getAuthCookie = () => {
+global.getAuthCookie = (id?: string) => {
   //  building a jwt payload containing id and email
 
   const payload = {
-    id: mongoose.Types.ObjectId().toHexString(),
+    id: id || mongoose.Types.ObjectId().toHexString(),
     email: "est@est.com",
   };
 

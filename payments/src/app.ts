@@ -3,7 +3,7 @@ import "express-async-errors";
 import cookieSession from "cookie-session";
 import { json } from "body-parser";
 import { errorHandler, NotFoundError, currentUser } from "@msgtickets/common";
-
+import { createChargeRouter } from "./routes/new";
 const app = express();
 
 app.use(json());
@@ -17,7 +17,7 @@ app.use(
 );
 
 app.use(currentUser);
-
+app.use(createChargeRouter);
 
 app.all("*", async (req, res) => {
   throw new NotFoundError();
