@@ -5,6 +5,7 @@ import { TicketCreatedListener } from "./events/listeners/ticket-created-listene
 import { TicketUpdatedListener } from "./events/listeners/ticket-updated-listener";
 
 import { ExpirationCmpleteListener } from "./events/listeners/expiration-complete-listener";
+import { PaymentCreatedListener } from "./events/listeners/payment-created-listener";
 
 const startDB = async () => {
   // need to connect to our pod in k8s via clusterIp
@@ -43,6 +44,7 @@ const startDB = async () => {
     new TicketCreatedListener(natsWrapper.client).listen();
     new TicketUpdatedListener(natsWrapper.client).listen();
     new ExpirationCmpleteListener(natsWrapper.client).listen();
+    new PaymentCreatedListener(natsWrapper.client).listen();
 
     await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
