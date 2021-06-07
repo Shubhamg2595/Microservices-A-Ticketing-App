@@ -1,6 +1,7 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
+import {SECRET_STRIPE_KEY} from './setEnvVars'
 declare global {
   namespace NodeJS {
     interface Global {
@@ -11,6 +12,8 @@ declare global {
 
 jest.mock("../nats-wrapper");
 
+
+process.env.STRIPE_KEY = SECRET_STRIPE_KEY;
 let mongo: any;
 beforeAll(async () => {
   // basic way of adding env-variable for test setup

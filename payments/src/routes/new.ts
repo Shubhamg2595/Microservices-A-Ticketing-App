@@ -9,7 +9,9 @@ import {
   OrderStatus,
 } from "@msgtickets/common";
 import { Order } from "../models/order";
-import {stripe} from '../stripe'
+import { stripe } from "../stripe";
+import { Payment } from "../models/charge";
+
 const router = express.Router();
 
 router.post(
@@ -34,11 +36,17 @@ router.post(
       throw new BadRequestError("Cannot pay for a cancelled order.");
     }
 
-    await stripe.charges.create({
-      currency: 'usd',
-      amount: order.price * 100,
-      source: token
-    })
+    const charges = await stripe.charges.create({
+      currency: "inr",
+      amount: order.price,
+      source: token,
+    });
+
+    const payment = Payment.build({
+      orderId,
+      stripeId: charges.id,
+    });
+    await payment.save();
 
     res.status(201).send({ success: true });
   }
