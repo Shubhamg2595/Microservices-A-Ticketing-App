@@ -12,7 +12,7 @@ spec:
       labels:
         app: tickets-mongo
     spec:
-      containers: 
+      containers:
         - name: tickets-mongo
           image: mongo:4.4.6
 ---
@@ -22,9 +22,9 @@ metadata:
   name: tickets-mongo-srv
 spec:
   selector:
-    app: tickets-mongo     
+    app: tickets-mongo
   ports:
     - name: db
       protocol: TCP
       port: 27017
-      targetPort: 27017 
+      targetPort: 27017

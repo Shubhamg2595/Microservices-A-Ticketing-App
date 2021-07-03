@@ -12,7 +12,7 @@ spec:
       labels:
         app: expiration-redis
     spec:
-      containers: 
+      containers:
         - name: expiration-redis
           image: redis
 ---
@@ -22,9 +22,9 @@ metadata:
   name: expiration-redis-srv
 spec:
   selector:
-    app: expiration-redis     
+    app: expiration-redis
   ports:
     - name: db
       protocol: TCP
       port: 6379
-      targetPort: 6379 
+      targetPort: 6379
