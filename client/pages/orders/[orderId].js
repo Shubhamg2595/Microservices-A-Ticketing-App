@@ -29,7 +29,7 @@ const OrderShow = ({ order, currentUser }) => {
     };
   }, [order]);
 
-  if (timerId < 0) {
+  if (timeLeft < 0) {
     return <div> Order Expired </div>;
   }
 
@@ -48,7 +48,7 @@ const OrderShow = ({ order, currentUser }) => {
 };
 
 OrderShow.getInitialProps = async (context, client) => {
-  const orderId = context.query;
+  const {orderId} = context.query;
   const { data } = await client.get(`/api/orders/${orderId}`);
 
   return { order: data };
